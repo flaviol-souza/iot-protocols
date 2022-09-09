@@ -16,3 +16,4 @@ _Obs.: Quando necessário utilize dos drives adequados para as placas de prototi
 * Laboratório 1: HTTP
   - ESP32 / DHT11  
 * Laboratório 2: MQTT
+  - Arduino UNO / ESP32 / DHT11 
