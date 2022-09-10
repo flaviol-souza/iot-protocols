@@ -1,8 +1,9 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
-const char* ssid = "GF_Wifi";
-const char* password =  "asbanga2020";
+const char* ssid = "ifsp-ibge-1";
+const char* password = "ifspcatanduva";
+
 
 WiFiClient espClient;
 PubSubClient client(espClient);
