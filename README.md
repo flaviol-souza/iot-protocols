@@ -17,3 +17,6 @@ _Obs.: Quando necessário utilize dos drives adequados para as placas de prototi
   - ESP32 / DHT11  
 * Laboratório 2: MQTT
   - Arduino UNO / ESP32 / DHT11 
+* Laboratório 4: CoAP
+  - Arduino UNO / ESP32 / LCD 16x2 / Led 
+  

@@ -44,7 +44,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Send Request Get Light");
+  Serial.print("Send Request Get Light -> ");
   coap.get(IPAddress(192, 168, 40, 101), 5683, "light");
   Serial.println(statusLed);
   delay(3000);
