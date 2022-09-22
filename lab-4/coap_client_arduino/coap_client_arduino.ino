@@ -1,37 +1,29 @@
-#include <SPI.h>
-#include <Dhcp.h>
-#include <Dns.h>
+
 #include <Ethernet.h>
 #include <EthernetUdp.h>
 #include <coap-simple.h>
 #include <LiquidCrystal.h>
- 
-#define LEDP 9
 
 byte mac[] = { 0x00, 0xAA, 0xBB, 0xCC, 0xDE, 0x02 };
 IPAddress dev_ip(192, 168, 40, 110);
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-
-void callback_response(CoapPacket &packet, IPAddress ip, int port);
-
 EthernetUDP Udp;
 Coap coap(Udp);
 
-bool LEDSTATE;
+String statusLed = "";
 
-void callback_response(CoapPacket &packet, IPAddress ip, int port) {
-  Serial.println("[Coap Response got]");
-  
+void callbackResponse(CoapPacket &packet, IPAddress ip, int port);
+
+void callbackResponse(CoapPacket &packet, IPAddress ip, int port) {
   char p[packet.payloadlen + 1];
   memcpy(p, packet.payload, packet.payloadlen);
   p[packet.payloadlen] = NULL;
-  
+
+  Serial.print("[Resp. ");
+  Serial.print(packet.type);
+  Serial.print("] Status Led: ");
   Serial.println(p);
-  lcd.clear();
-  lcd.print("IFSP - CTD ");
-  lcd.clear();
-  lcd.print(p);
-  lcd.setCursor(3, 0);
+  statusLed = p;
 }
 
 void setup() {
@@ -43,19 +35,26 @@ void setup() {
 
   Ethernet.begin(mac,dev_ip);
   Serial.print("My IP address: ");
-  Serial.print(Ethernet.localIP());
-  Serial.println();
-
+  Serial.println(Ethernet.localIP());
+  
   Serial.println("Setup Response Callback");
-  coap.response(callback_response);
+  coap.response(callbackResponse);
 
   coap.start();
 }
 
 void loop() {
-  Serial.println("Send Request");
-  int msgid = coap.get(IPAddress(192, 168, 40, 100), 5683, "time");
-
-  delay(1000);
+  Serial.print("Send Request Get Light");
+  coap.get(IPAddress(192, 168, 40, 101), 5683, "light");
+  Serial.println(statusLed);
+  delay(3000);
+  if(statusLed == "ON"){
+    Serial.println("Send Request Put OFF Light");
+    coap.put(IPAddress(192, 168, 40, 101), 5683, "light", "OFF");
+  } else {
+    Serial.println("Send Request Put ON Light");
+    coap.put(IPAddress(192, 168, 40, 101), 5683, "light", "ON");
+  }
+  delay(2000);
   coap.loop();
 }
