@@ -7,12 +7,11 @@
 const char* ssid = "ifsp-ibge-1";
 const char* password = "ifspcatanduva";
 
-void callback_light(CoapPacket &packet, IPAddress ip, int port);
-
 WiFiUDP udp;
 Coap coap(udp);
+char* statusLed = NULL;
 
-bool LEDSTATE;
+void callback_light(CoapPacket &packet, IPAddress ip, int port);
 
 void callback_light(CoapPacket &packet, IPAddress ip, int port) {
   Serial.println("[Light] ON/OFF");
@@ -21,20 +20,17 @@ void callback_light(CoapPacket &packet, IPAddress ip, int port) {
   memcpy(p, packet.payload, packet.payloadlen);
   p[packet.payloadlen] = NULL;
   
-  String message(p);
-
-  if (message.equals("0"))
-    LEDSTATE = false;
-  else if(message.equals("1"))
-    LEDSTATE = true;
-      
-  if (LEDSTATE) {
+  String message(p);   
+  Serial.println(message);   
+  if (message.equals("ON")){
     digitalWrite(PINLED, HIGH) ; 
-    coap.sendResponse(ip, port, packet.messageid, "1");
-  } else { 
+    statusLed = "ON";
+  } else if(message.equals("OFF")){ 
     digitalWrite(PINLED, LOW) ; 
-    coap.sendResponse(ip, port, packet.messageid, "0");
+    statusLed = "OFF";
   }
+
+  coap.sendResponse(ip, port, packet.messageid, statusLed);
 }
 
 void setup() {
@@ -53,8 +49,8 @@ void setup() {
 
   pinMode(PINLED, OUTPUT);
   digitalWrite(PINLED, HIGH);
-  LEDSTATE = true;
-  
+  statusLed = "ON";
+    
   Serial.println("Setup Callback Light");
   coap.server(callback_light, "light");
 
