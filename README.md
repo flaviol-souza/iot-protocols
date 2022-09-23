@@ -13,12 +13,25 @@ Para a experimentação das implementações utilize:
 _Obs.: Quando necessário utilize dos drives adequados para as placas de prototipação correta._
 
 ## Implementações dos Protocolos
-* Laboratório 1: HTTP
+* Laboratório 1: *HTTP*
   - ESP32 / DHT11  
-* Laboratório 2: MQTT
+* Laboratório 2: *MQTT*
   - Arduino UNO / ESP32 / DHT11 
-* Laboratório 4: NFC
+* Laboratório 3: *NFC*
   - Arduino UNO / MFRC522
-* Laboratório 4: CoAP
+* Laboratório 4: *CoAP*
   - Arduino UNO / ESP32 / LCD 16x2 / Led 
+
+## Dependências
+
+Todas as bibliotecas utilizadas nos projetos:
+- [ArduinoMqttClient, Arduino](https://www.arduino.cc/reference/en/libraries/arduinomqttclient/)
+- [CoAP Simple, Hirotaka Niisato](https://www.arduino.cc/reference/en/libraries/coap-simple-library/)
+- [DHT, Adafruit](https://www.arduino.cc/reference/en/libraries/dht-sensor-library/)
+- [LiquidCrystal, Arduino](https://www.arduino.cc/reference/en/libraries/liquidcrystal/)
+- [MFRC522, GithubCommunity](https://www.arduino.cc/reference/en/libraries/mfrc522/)
+- [PubSubClient, Nick O'Leary](https://www.arduino.cc/reference/en/libraries/pubsubclient/)
+- [TinyXML, Adafruit](https://www.arduino.cc/reference/en/libraries/tinyxml/)
+
+
   
